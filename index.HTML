@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segurança Digital Amiga - Guia Prático para Idosos</title>
+    <style>
+        /* Variáveis de estilo e acessibilidade */
+        :root {
+            --cor-fundo: #f4f7f6;
+            --cor-cartao: #ffffff;
+            --cor-texto: #1a1a1a;
+            --cor-principal: #0056b3;
+            --cor-principal-hover: #003d80;
+            --cor-sucesso: #28a745;
+            --cor-alerta: #dc3545;
+            --cor-alerta-hover: #bd2130;
+            --cor-borda: #cccccc;
+            --escala-fonte: 1;
+        }
+
+        /* Modo Alto Contraste / Escuro */
+        body.modo-escuro {
+            --cor-fundo: #121212;
+            --cor-cartao: #1e1e1e;
+            --cor-texto: #ffffff;
+            --cor-principal: #4da6ff;
+            --cor-principal-hover: #80c1ff;
+            --cor-sucesso: #5cd85c;
+            --cor-alerta: #ff6b6b;
+            --cor-alerta-hover: #ff8585;
+            --cor-borda: #555555;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+            font-size: calc(18px * var(--escala-fonte));
+            transition: background-color 0.3s, color 0.3s;
+            padding-bottom: 40px;
+        }
+
+        /* Barra Superior de Acessibilidade */
+        .barra-acessibilidade {
+            background-color: #222222;
+            color: #ffffff;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .grupo-botoes-acessibilidade {
+            display: flex;
+            gap: 8px;
+        }
+
+        .botao-acessibilidade {
+            background-color: #ffffff;
+            color: #222222;
+            border: none;
+            padding: 8px 14px;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .botao-acessibilidade:focus, .botao-acessibilidade:hover {
+            outline: 3px solid #ffbf00;
+            background-color: #e2e2e2;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: var(--cor-principal);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: calc(1.8em * var(--escala-fonte));
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: calc(1.1em * var(--escala-fonte));
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 850px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        /* Banner de Início e Ajuda Emergencial */
+        .banner-destaque {
+            background-color: #fff8e1;
+            border: 3px solid #ffe082;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        body.modo-escuro .banner-destaque {
+            background-color: #2b2612;
+            border-color: #66521a;
+        }
+
+        .banner-destaque h2 {
+            color: var(--cor-texto);
+            font-size: calc(1.4em * var(--escala-fonte));
+            margin-bottom: 10px;
+        }
+
+        .banner-destaque p {
+            margin-bottom: 20px;
+        }
+
+        .botao-ajuda-urgente {
+            background-color: var(--cor-alerta);
+            color: white;
+            border: none;
+            padding: 16px 28px;
+            font-size: calc(1.2em * var(--escala-fonte));
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.1s, background-color 0.2s;
+            text-decoration: none;
+        }
+
+        .botao-ajuda-urgente:hover, .botao-ajuda-urgente:focus {
+            background-color: var(--cor-alerta-hover);
+            outline: 3px solid #ffbf00;
+            transform: scale(1.03);
+        }
+
+        /* Painel de Ajuda Rápida */
+        .painel-ajuda {
+            display: none;
+            background-color: var(--cor-cartao);
+            border: 3px solid var(--cor-alerta);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .painel-ajuda.ativo {
+            display: block;
+        }
+
+        .painel-ajuda h3 {
+            color: var(--cor-alerta);
+            margin-bottom: 15px;
+            font-size: calc(1.2em * var(--escala-fonte));
+        }
+
+        /* Estilização das Seções */
+        .bloco-secao {
+            background-color: var(--cor-cartao);
+            border: 2px solid var(--cor-borda);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .titulo-secao {
+            font-size: calc(1.4em * var(--escala-fonte));
+            color: var(--cor-principal);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--cor-borda);
+            padding-bottom: 10px;
+        }
+
+        /* Dicas Rápidas */
+        .cartao-dica {
+            background-color: var(--cor-fundo);
+            border-left: 6px solid var(--cor-principal);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+
+        .cartao-dica h3 {
+            font-size: calc(1.1em * var(--escala-fonte));
+            margin-bottom: 5px;
+        }
+
+        /* Lista de Atitudes Suspeitas */
+        .lista-suspeitas {
+            list-style: none;
+        }
+
+        .item-suspeito {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #fff3f3;
+            border-radius: 8px;
+            border-left: 5px solid var(--cor-alerta);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        body.modo-escuro .item-suspeito {
+            background-color: #2c1a1a;
+        }
+
+        .icone-alerta {
+            font-size: 1.3em;
+            line-height: 1;
+        }
+
+        /* Botão Ouvir Áudio */
+        .botao-audio {
+            background-color: var(--cor-principal);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            font-size: 0.95em;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .botao-audio:hover, .botao-audio:focus {
+            background-color: var(--cor-principal-hover);
+            outline: 3px solid #ffbf00;
+        }
+
+        /* Botões de Telefone */
+        .botao-telefone {
+            background-color: var(--cor-sucesso);
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        /* Rodapé */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--cor-cartao);
+            border-top: 1px solid var(--cor-borda);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de Acessibilidade -->
+    <div class="barra-acessibilidade" role="region" aria-label="Acessibilidade">
+        <span><strong>Opções de Acessibilidade:</strong></span>
+        <div class="grupo-botoes-acessibilidade">
+            <button class="botao-acessibilidade" id="botao-aumentar-fonte" title="Aumentar texto" aria-label="Aumentar texto">A+</button>
+            <button class="botao-acessibilidade" id="botao-diminuir-fonte" title="Diminuir texto" aria-label="Diminuir texto">A-</button>
+            <button class="botao-acessibilidade" id="botao-contraste" title="Alternar Contraste" aria-label="Modo escuro">
+                <span>🌓</span> Alto Contraste
+            </button>
+        </div>
+    </div>
+
+    <!-- Cabeçalho -->
+    <header>
+        <h1>🛡️ Segurança Digital Amiga</h1>
+        <p>Seu guia simples para navegar na internet com tranquilidade.</p>
+    </header>
+
+    <div class="container">
+
+        <!-- SEÇÃO 1: Início e Banner com Botão de Ajuda Funcional -->
+        <section id="inicio" class="banner-destaque">
+            <h2>Bem-vindo(a) ao seu espaço seguro!</h2>
+            <p>Se você suspeita de algo estranho ou acha que caiu em um golpe, não se preocupe e clique no botão abaixo para saber o que fazer agora mesmo.</p>
+            
+            <button class="botao-ajuda-urgente" onclick="alternarPainelAjuda()">
+                🚨 PRECISO DE AJUDA RÁPIDA
+            </button>
+
+            <!-- Painel de Ajuda (Aberto via botão) -->
+            <div id="painel-ajuda" class="painel-ajuda" role="alert">
+                <h3>O que fazer imediatamente:</h3>
+                <ol style="padding-left: 20px; margin-bottom: 15px;">
+                    <style>li { margin-bottom: 10px; }</style>
+                    <li>
+                        <strong>Ligue para o seu banco:</strong> Peça o bloqueio de cartões ou cancelamento do PIX urgente.
+                    </li>
+                    <li>
+                        <strong>Aviso para parentes:</strong> Avise sua família se alguém se passar por você pedindo dinheiro.
+                    </li>
+                    <li>
+                        <strong>Ligue para a Polícia (190):</strong> Registre um Boletim de Ocorrência.
+                        <br>
+                        <a href="tel:190" class="botao-telefone">📞 Ligar 190 (Polícia)</a>
+                    </li>
+                </ol>
+                <button class="botao-acessibilidade" onclick="alternarPainelAjuda()" style="background-color: var(--cor-borda);">Fechar Ajuda</button>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: Dicas Importantes (3 Dicas Curtas) -->
+        <section class="bloco-secao" id="dicas">
+            <h2 class="titulo-secao">💡 Dicas Importantes</h2>
+            
+            <div class="cartao-dica">
+                <h3>1. Pense antes de clicar em links</h3>
+                <p>Recebeu uma promoção fantástica, prêmio ou aviso de conta atrasada por mensagem? Não clique no link. Entre direto no aplicativo oficial do banco ou da loja.</p>
+            </div>
+
+            <div class="cartao-dica">
+                <h3>2. Pedido de dinheiro? Ligue para o parente</h3>
+                <p>Se um filho ou neto mandar mensagem pedindo dinheiro porque trocou de número, não faça o PIX na hora. Ligue para o número antigo dele para confirmar.</p>
+            </div>
+
+            <div class="cartao-dica">
+                <h3>3. Nunca envie seu código por SMS</h3>
+                <p>Aquele código numerado que chega por SMS no seu celular é de uso pessoal. Nenhuma empresa ou banco vai pedir que você envie esse código para eles.</p>
+            </div>
+
+            <button class="botao-audio" onclick="lerSecao('dicas')">🔊 Ouvir estas dicas</button>
+        </section>
+
+        <!-- SEÇÃO 3: Direitos na Internet -->
+        <section class="bloco-secao" id="direitos">
+            <h2 class="titulo-secao">📜 Direitos na Internet</h2>
+            <p style="margin-bottom: 12px;">Você sabia que a lei protege você enquanto navega na internet? Veja os seus principais direitos:</p>
+
+            <ul style="padding-left: 20px; margin-bottom: 15px;">
+                <li style="margin-bottom: 10px;">
+                    <strong>Proteção aos seus dados:</strong> Empresas e sites não podem vender ou espalhar seu CPF, telefone ou endereço sem a sua autorização expressa (Lei Geral de Proteção de Dados - LGPD).
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Atendimento acessível:</strong> Bancos e serviços públicos têm obrigação de oferecer canais claros e fáceis de entender para pessoas idosas.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Direito ao cancelamento:</strong> Se você contratou um serviço ou comprou algo pela internet e se arrependeu, tem até 7 dias para cancelar e receber todo o seu dinheiro de volta.
+                </li>
+            </ul>
+
+            <button class="botao-audio" onclick="lerSecao('direitos')">🔊 Ouvir sobre meus direitos</button>
+        </section>
+
+        <!-- SEÇÃO 4: Como Saber se Estou Caindo em um Golpe? -->
+        <section class="bloco-secao" id="suspeitas">
+            <h2 class="titulo-secao">🔍 Como Saber se Estou Caindo em um Golpe?</h2>
+            <p style="margin-bottom: 15px;">Fique atento às atitudes mais comuns utilizadas por golpistas:</p>
+
+            <ul class="lista-suspeitas">
+                <li class="item-suspeito">
+                    <span class="icone-alerta">⚠️</span>
+                    <div>
+                        <strong>Pressa e Urgência:</strong> A pessoa diz que algo horrível vai acontecer ou você vai perder uma oportunidade se não pagar "agora mesmo".
+                    </div>
+                </li>
+                <li class="item-suspeito">
+                    <span class="icone-alerta">⚠️</span>
+                    <div>
+                        <strong>Pedidos de Segredo:</strong> Pedem para você não contar a ninguém da sua família ou não desligar o telefone enquanto vai ao caixa eletrônico.
+                    </div>
+                </li>
+                <li class="item-suspeito">
+                    <span class="icone-alerta">⚠️</span>
+                    <div>
+                        <strong>Nome de terceiro no PIX:</strong> Ao tentar fazer um pagamento, o nome que aparece na tela do celular não é o da empresa ou da pessoa conhecida, mas sim o de um estranho.
+                    </div>
+                </li>
+                <li class="item-suspeito">
+                    <span class="icone-alerta">⚠️</span>
+                    <div>
+                        <strong>Pedido de Senhas ou Foto do Cartão:</strong> Qualquer pessoa que peça para você falar sua senha ou enviar uma foto da frente e do verso do seu cartão.
+                    </div>
+                </li>
+            </ul>
+
+            <button class="botao-audio" onclick="lerSecao('suspeitas')">🔊 Ouvir atitudes suspeitas</button>
+        </section>
+
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>Guia de Acessibilidade e Segurança Digital do Idoso.</p>
+        <p style="margin-top: 5px;">Navegue com tranquilidade e em segurança.</p>
+    </footer>
+
+    <!-- JavaScript com nomes totalmente em Português -->
+    <script>
+        // Zoom e Controle do Tamanho da Fonte
+        let escalaAtual = 1;
+        const elementoRaiz = document.documentElement;
+
+        document.getElementById('botao-aumentar-fonte').addEventListener('click', function() {
+            if (escalaAtual < 1.4) {
+                escalaAtual += 0.1;
+                elementoRaiz.style.setProperty('--escala-fonte', escalaAtual);
+            }
+        });
+
+        document.getElementById('botao-diminuir-fonte').addEventListener('click', function() {
+            if (escalaAtual > 0.9) {
+                escalaAtual -= 0.1;
+                elementoRaiz.style.setProperty('--escala-fonte', escalaAtual);
+            }
+        });
+
+        // Alternar Modo Alto Contraste / Escuro
+        document.getElementById('botao-contraste').addEventListener('click', function() {
+            document.body.classList.toggle('modo-escuro');
+        });
+
+        // Alternar Exibição do Painel de Ajuda
+        function alternarPainelAjuda() {
+            const painel = document.getElementById('painel-ajuda');
+            painel.classList.toggle('ativo');
+            
+            if (painel.classList.contains('ativo')) {
+                painel.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Leitura do Conteúdo em Voz Alta
+        function lerSecao(idSecao) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Interrompe leituras anteriores
+
+                const secao = document.getElementById(idSecao);
+                let textoParaLer = secao.innerText;
+
+                // Remove o texto dos botões de áudio para não ser lido junto
+                const botoesAudio = secao.querySelectorAll('.botao-audio');
+                botoesAudio.forEach(function(botao) {
+                    textoParaLer = textoParaLer.replace(botao.innerText, '');
+                });
+
+                const fala = new SpeechSynthesisUtterance(textoParaLer);
+                fala.lang = 'pt-BR';
+                fala.rate = 0.9; // Velocidade ajustada para melhor compreensão
+
+                window.speechSynthesis.speak(fala);
+            } else {
+                alert('A leitura em voz alta não é suportada por este navegador.');
+            }
+        }
+    </script>
+</body>
+</html>
